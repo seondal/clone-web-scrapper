@@ -1,15 +1,29 @@
 from requests import get
 from bs4 import BeautifulSoup
 from extractors.wwr import extract_wwr_jobs
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36"}
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
+browser = webdriver.Chrome(options=options)
 
 base_url = "https://kr.indeed.com/jobs?q="
 search_term = "python"
+browser.get(f"{base_url}{search_term}")
+response = browser.page_source
 
-response = get(f"{base_url}{search_term}", headers=headers)
+soup = BeautifulSoup(response, features="html5lib")
 
-if response.status_code != 200:
-    print("Cant request page")
-else:
-  print(response.text)
+job_list = soup.find("ul", class_="jobsearch-ResultsList")
+jobs = job_list.find_all("li", recursive=False)
+for job in jobs:
+  zone = job.find("div", class_="mosaic-zone")
+  if zone == None:
+    anchor = job.select_one("h2 a")
+    title = anchor['aria-label']
+    link = anchor['href']
+    print(title, link)
+    print("///")
