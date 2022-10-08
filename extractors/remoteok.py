@@ -21,10 +21,10 @@ def extract_wwr_jobs(keyword):
             tag_data = []
             for tag in tags:
                 tag_data.append(tag.string)
-                job_data = {
-                    "title": title.string,
-                    "name": name.string,
-                    "tags": tag_data
+                position = {
+                    "company": name.string,
+                    "location": tag_data,
+                    "position": title.string,
                 }
                 results.append(job_data)
     return results
