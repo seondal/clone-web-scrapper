@@ -29,6 +29,7 @@ def extract_remoteok_jobs(keyword):
       for tag in tags:
         tag_data.append(f"{tag.string} ")
       tag_string = "".join(tag_data)
+      tag_string = tag_string.replace(",", " ")
       tag_string = tag_string.replace("💰", "salary:")
       for emoji in globe_emojis:
         tag_string = tag_string.replace(emoji, "country:")
@@ -36,8 +37,8 @@ def extract_remoteok_jobs(keyword):
         tag_string = tag_string.replace(emoji, "")
       
       job_data = {
-        "position": title.string.strip(),
-        "company": name.string.strip(),
+        "position": title.string.strip().replace(","," "),
+        "company": name.string.strip().replace(",", " "),
         "tags": tag_string
       }
       results.append(job_data)
