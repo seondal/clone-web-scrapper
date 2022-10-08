@@ -1,7 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
 
-
 def extract_remoteok_jobs(keyword):
   headers = {
     "User-Agent":
@@ -11,6 +10,9 @@ def extract_remoteok_jobs(keyword):
   url = f"https://remoteok.com/remote-{keyword}-jobs"
   response = get(url, headers=headers)
 
+  globe_emojis = "🌎🌍🌏"
+  country_emojis = "🇨🇦🇺🇸💃🇬🇧"
+  
   if response.status_code != 200:
     print("Can't request website")
   else:
@@ -25,13 +27,18 @@ def extract_remoteok_jobs(keyword):
       tags = job.find_all("div", class_="location")
       tag_data = []
       for tag in tags:
-        tag_data.append(tag.string)
+        tag_data.append(f"{tag.string} ")
       tag_string = "".join(tag_data)
-
+      tag_string = tag_string.replace("💰", "salary:")
+      for emoji in globe_emojis:
+        tag_string = tag_string.replace(emoji, "country:")
+      for emoji in country_emojis:
+        tag_string = tag_string.replace(emoji, "")
+      
       job_data = {
         "position": title.string.strip(),
         "company": name.string.strip(),
-        "location": tag_string.replace(",", " ")
+        "tags": tag_string
       }
       results.append(job_data)
   return results

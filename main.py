@@ -11,7 +11,7 @@ file = open(f"{keyword}.csv", "w")
 file.write("Position, Company, Tags \n")
 
 for job in jobs:
-  file.write(f"{job['position']},{job['company']},{job['location']}\n")
+  file.write(f"{job['position']},{job['company']},{job['tags']}\n")
   print(job)
   print("\n")
   
