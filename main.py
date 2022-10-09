@@ -4,6 +4,8 @@ from extractors.remoteok import extract_remoteok_jobs
 
 app = Flask("JobScrapper")
 
+db = {}
+
 
 @app.route("/")  # decorator - 바로 아래 있는 함수 실행
 def home():
@@ -13,9 +15,13 @@ def home():
 @app.route("/search")
 def search():
   keyword = request.args.get("keyword")
-  remoteok = extract_remoteok_jobs(keyword)
-  wwr = extract_wwr_jobs(keyword)
-  jobs = remoteok + wwr
+  if keyword in db:
+    jobs = db[keyword]
+  else:
+    remoteok = extract_remoteok_jobs(keyword)
+    wwr = extract_wwr_jobs(keyword)
+    jobs = remoteok + wwr
+    db[keyword] = jobs
   return render_template("search.html", keyword=keyword, jobs=jobs)
 
 
