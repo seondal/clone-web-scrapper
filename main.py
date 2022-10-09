@@ -1,6 +1,7 @@
 from extractors.indeed import extract_indeed_jobs
 from extractors.remoteok import extract_remoteok_jobs
 from extractors.wwr import extract_wwr_jobs
+from file import save_to_file
 
 keyword = input("What do you want to search for?")
 
@@ -9,13 +10,8 @@ wwr = extract_wwr_jobs(keyword)
 remoteok = extract_remoteok_jobs(keyword)
 jobs = wwr + remoteok
 
-file = open(f"{keyword}.csv", "w")
-file.write("Position, Company, Tags \n")
+save_to_file(keyword, jobs)
 
-for job in jobs:
-  file.write(f"{job['position']},{job['company']},{job['tags']}\n")
-  
-file.close()
 
 
 
