@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from extractors.wwr import extract_wwr_jobs
 from extractors.remoteok import extract_remoteok_jobs
 
@@ -15,6 +15,8 @@ def home():
 @app.route("/search")
 def search():
   keyword = request.args.get("keyword")
+  if keyword == None:
+    return redirect("/")
   if keyword in db:
     jobs = db[keyword]
   else:
