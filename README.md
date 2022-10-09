@@ -5,5 +5,5 @@
 ---
 
 ### 실행 방법
-1. 위쪽 초록색 Play 버튼을 클릭하여 서버를 구동합니다.
+1. 초록색 Run 버튼을 클릭하여 서버를 구동합니다.
 2. [https://clone-web-scrapper.seondal.repl.co/](https://clone-web-scrapper.seondal.repl.co/)로 접속합니다.
